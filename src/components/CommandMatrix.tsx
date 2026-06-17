@@ -257,22 +257,25 @@ export function CommandMatrix({ onCardClick, language }: CommandMatrixProps) {
         {categories.map((category) => (
           <div
             key={category.id}
-            className="bg-white rounded-lg border-2 border-card-glow/30 shadow-lg shadow-card-glow/20 hover:border-card-glow/60 hover:shadow-card-glow/40 transition-all duration-300 flex flex-col p-6 group"
+            className="bg-white rounded-lg border-2 border-card-glow/30 shadow-lg shadow-card-glow/20 hover:border-card-glow/60 hover:shadow-card-glow/40 transition-all duration-300 flex flex-col p-6"
+            style={{ backgroundColor: "#F8FAFC" }}
           >
-            <h3 className="text-xl font-bold text-foreground mb-4 text-center font-heading">
+            <h3 className="text-xl font-bold text-center font-heading mb-6" style={{ color: "#000000" }}>
               {category.title}
             </h3>
-            <div className="flex-1 flex flex-col gap-3">
+            <div className="flex-1 grid grid-cols-3 gap-4">
               {category.items.map((item, idx) => {
                 const Icon = item.icon;
                 return (
                   <button
                     key={idx}
                     onClick={() => handleItemClick(item.messageKey)}
-                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer"
+                    className="flex flex-col items-center justify-center gap-3 p-4 rounded-xl bg-white border-2 border-accent/20 hover:border-accent hover:shadow-lg hover:shadow-accent/20 transition-all duration-200 cursor-pointer group"
                   >
-                    <Icon className="w-8 h-8 text-accent group-hover:scale-110 transition-transform" />
-                    <span className="text-sm font-semibold text-foreground/80">
+                    <div className="w-20 h-20 bg-gradient-to-br from-accent/10 to-accent/5 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <Icon className="w-12 h-12 text-accent" strokeWidth={2} />
+                    </div>
+                    <span className="text-base font-bold text-center leading-tight" style={{ color: "#000000" }}>
                       {item.label}
                     </span>
                   </button>
