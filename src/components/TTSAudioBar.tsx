@@ -5,12 +5,20 @@ import { Volume2, Play } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-export function TTSAudioBar() {
+interface TTSAudioBarProps {
+  onSendMessage?: (text: string) => void;
+}
+
+export function TTSAudioBar({ onSendMessage }: TTSAudioBarProps) {
   const [text, setText] = useState("");
   const [isSpeaking, setIsSpeaking] = useState(false);
 
   const handleSpeak = () => {
     if (!text.trim()) return;
+
+    if (onSendMessage) {
+      onSendMessage(text);
+    }
 
     if ("speechSynthesis" in window) {
       window.speechSynthesis.cancel();
@@ -22,7 +30,10 @@ export function TTSAudioBar() {
       utterance.volume = 1.0;
 
       utterance.onstart = () => setIsSpeaking(true);
-      utterance.onend = () => setIsSpeaking(false);
+      utterance.onend = () => {
+        setIsSpeaking(false);
+        setText("");
+      };
       utterance.onerror = () => setIsSpeaking(false);
 
       window.speechSynthesis.speak(utterance);

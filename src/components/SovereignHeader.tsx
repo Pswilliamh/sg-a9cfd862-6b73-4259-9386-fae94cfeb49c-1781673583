@@ -1,16 +1,25 @@
 "use client";
 
-import { Shield, Wifi, Radio } from "lucide-react";
+import { Shield, Wifi, Radio, Globe } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
 
 interface SovereignHeaderProps {
   isOffline: boolean;
   onOfflineToggle: (offline: boolean) => void;
+  language: "en" | "id";
+  onLanguageChange: (lang: "en" | "id") => void;
 }
 
-export function SovereignHeader({ isOffline, onOfflineToggle }: SovereignHeaderProps) {
+export function SovereignHeader({ isOffline, onOfflineToggle, language, onLanguageChange }: SovereignHeaderProps) {
   return (
     <header className="w-full bg-navigation border-b-4 border-accent px-8 py-4 flex items-center justify-between gap-6">
       <div className="flex items-center gap-4">
@@ -26,6 +35,29 @@ export function SovereignHeader({ isOffline, onOfflineToggle }: SovereignHeaderP
       </div>
       
       <div className="flex items-center gap-6">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button 
+              variant="outline" 
+              className="bg-navigation/50 border-gold/30 hover:bg-navigation/70 flex items-center gap-2"
+              style={{ borderColor: "#D4AF37" }}
+            >
+              <Globe className="w-5 h-5 text-gold" style={{ color: "#D4AF37" }} />
+              <span className="text-gold font-semibold" style={{ color: "#D4AF37" }}>
+                {language === "en" ? "🇺🇸 English" : "🇮🇩 Indonesian"}
+              </span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem onClick={() => onLanguageChange("en")} className="cursor-pointer">
+              🇺🇸 English
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onLanguageChange("id")} className="cursor-pointer">
+              🇮🇩 Indonesian
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
         <div className="flex items-center gap-3 bg-navigation/50 px-4 py-2 rounded-lg border border-gold/30">
           <Label htmlFor="network-toggle" className="text-gold font-semibold text-sm cursor-pointer" style={{ color: "#D4AF37" }}>
             Network Status:
