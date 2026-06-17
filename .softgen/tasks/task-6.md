@@ -1,6 +1,6 @@
 ---
 title: Multi-Language Selector and WhatsApp Chat Feed
-status: in_progress
+status: done
 priority: high
 type: feature
 tags: [i18n, language, translation, chat, whatsapp]
@@ -13,17 +13,17 @@ position: 6
 Add language selector dropdown (English/Indonesian) to header that updates all matrix card labels. Transform Communication Canvas into WhatsApp-style chat feed showing bilingual bubbles (English + Indonesian). Clicking matrix items or typing in TTS bar should add chat bubbles to the feed.
 
 ## Checklist
-- [ ] Add language selector dropdown to header (left of offline badge)
-- [ ] Populate with flag icons (🇺🇸 English, 🇮🇩 Indonesian)
-- [ ] Create translation dictionary for matrix card labels
-- [ ] Wire language selector to update all 6 matrix card texts
-- [ ] Transform Communication Canvas into scrollable chat feed
-- [ ] Style chat bubbles like WhatsApp (rounded, colored)
-- [ ] Show English text + Indonesian translation in italics in bubbles
-- [ ] Add click handlers to matrix sub-items to push chat bubbles
-- [ ] Update TTSAudioBar to also push typed text to chat feed
-- [ ] Test language switching updates all UI labels
-- [ ] Ensure chat feed scrolls to newest message
+- [x] Add language selector dropdown to header (left of offline badge)
+- [x] Populate with flag icons (🇺🇸 English, 🇮🇩 Indonesian)
+- [x] Create translation dictionary for matrix card labels
+- [x] Wire language selector to update all 6 matrix card texts
+- [x] Transform Communication Canvas into scrollable chat feed
+- [x] Style chat bubbles like WhatsApp (rounded, colored)
+- [x] Show English text + Indonesian translation in italics in bubbles
+- [x] Add click handlers to matrix sub-items to push chat bubbles
+- [x] Update TTSAudioBar to also push typed text to chat feed
+- [x] Test language switching updates all UI labels
+- [x] Ensure chat feed scrolls to newest message
 
 ## Acceptance
 - Language selector switches between English and Indonesian
