@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Volume2, Play } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Volume2, Play, Mic, MicOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -12,6 +12,54 @@ interface TTSAudioBarProps {
 export function TTSAudioBar({ onSendMessage }: TTSAudioBarProps) {
   const [text, setText] = useState("");
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const [recognition, setRecognition] = useState<any>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      if (SpeechRecognition) {
+        const recognitionInstance = new SpeechRecognition();
+        recognitionInstance.continuous = false;
+        recognitionInstance.interimResults = false;
+        recognitionInstance.lang = "en-US";
+
+        recognitionInstance.onresult = (event: any) => {
+          const transcript = event.results[0][0].transcript;
+          setText(transcript);
+          if (onSendMessage) {
+            onSendMessage(transcript);
+          }
+          setIsListening(false);
+        };
+
+        recognitionInstance.onerror = () => {
+          setIsListening(false);
+        };
+
+        recognitionInstance.onend = () => {
+          setIsListening(false);
+        };
+
+        setRecognition(recognitionInstance);
+      }
+    }
+  }, [onSendMessage]);
+
+  const handleMicrophoneToggle = () => {
+    if (!recognition) {
+      alert("Speech Recognition is not supported in this browser");
+      return;
+    }
+
+    if (isListening) {
+      recognition.stop();
+      setIsListening(false);
+    } else {
+      recognition.start();
+      setIsListening(true);
+    }
+  };
 
   const handleSpeak = () => {
     if (!text.trim()) return;
@@ -56,13 +104,26 @@ export function TTSAudioBar({ onSendMessage }: TTSAudioBarProps) {
           Type to Speak Natively:
         </span>
         <div className="flex-1 flex items-center gap-3">
+          <Button
+            onClick={handleMicrophoneToggle}
+            size="lg"
+            variant={isListening ? "destructive" : "outline"}
+            className={`px-4 ${isListening ? "bg-red-600 hover:bg-red-700 animate-pulse" : ""}`}
+          >
+            {isListening ? (
+              <Mic className="w-6 h-6 text-white" />
+            ) : (
+              <Mic className="w-6 h-6" />
+            )}
+          </Button>
           <Input
             type="text"
             value={text}
             onChange={(e) => setText(e.target.value)}
             onKeyPress={handleKeyPress}
-            placeholder="Enter text to speak aloud..."
+            placeholder={isListening ? "Listening..." : "Enter text to speak aloud or use microphone..."}
             className="flex-1 text-base"
+            disabled={isListening}
           />
           <Button
             onClick={handleSpeak}
