@@ -61,6 +61,12 @@ export default function Home() {
     addChatMessage(text, text);
   };
 
+  const handleViewChange = (view: string) => {
+    if (view === "matrix" || view === "maps" || view === "youtube") {
+      setCurrentView(view);
+    }
+  };
+
   return (
     <>
       <SEO 
@@ -88,7 +94,7 @@ export default function Home() {
         <div className="flex-1 flex overflow-hidden">
           <NavigationDock 
             onGeminiClick={() => setIsGeminiOpen(true)} 
-            onViewChange={setCurrentView}
+            onViewChange={handleViewChange}
           />
           <div className="flex-1 flex flex-col overflow-hidden">
             {currentView === "matrix" && (
