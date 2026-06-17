@@ -30,7 +30,7 @@ interface NavigationDockProps {
 
 export function NavigationDock({ onGeminiClick }: NavigationDockProps) {
   return (
-    <aside className="w-32 bg-navigation flex flex-col items-center py-8 gap-4">
+    <aside className="w-32 bg-navigation flex flex-col items-center py-8 gap-4 overflow-y-auto scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent hover:scrollbar-thumb-white/30">
       {modules.map((module) => {
         const Icon = module.icon;
         return (
@@ -67,7 +67,7 @@ export function NavigationDock({ onGeminiClick }: NavigationDockProps) {
           <button className="flex flex-col items-center gap-2 px-4 py-4 w-full hover:bg-white/10 transition-colors group">
             <div className="relative">
               <div className="w-8 h-8 rounded bg-white flex items-center justify-center group-hover:scale-110 transition-transform">
-                <span className="text-navigation text-xs font-bold">G</span>
+                <span className="navigation text-xs font-bold">G</span>
               </div>
               <ChevronDown className="w-3 h-3 text-white absolute -bottom-1 -right-1" />
             </div>
@@ -104,7 +104,7 @@ export function NavigationDock({ onGeminiClick }: NavigationDockProps) {
 
       <div className="flex-1" />
 
-      <button className="w-full px-4 py-6 bg-emergency hover:bg-red-600 transition-all animate-pulse-slow flex flex-col items-center gap-2 group">
+      <button className="w-full px-4 py-6 bg-emergency hover:bg-red-600 transition-all animate-pulse-slow flex flex-col items-center gap-2 group mt-4">
         <AlertTriangle className="w-12 h-12 text-white group-hover:scale-110 transition-transform" />
         <span className="text-white text-sm font-bold tracking-wider">
           EMERGENCY
