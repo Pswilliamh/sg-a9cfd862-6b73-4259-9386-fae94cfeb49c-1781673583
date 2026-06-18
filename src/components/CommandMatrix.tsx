@@ -232,9 +232,11 @@ interface CommandMatrixProps {
   onCardClick?: (variations: Array<{ en: string; id: string }>) => void;
   language: "en" | "id";
   relationshipMode: RelationshipMode;
+  emergencyContactName?: string;
+  emergencyContactPhone?: string;
 }
 
-export function CommandMatrix({ onCardClick, language, relationshipMode }: CommandMatrixProps) {
+export function CommandMatrix({ onCardClick, language, relationshipMode, emergencyContactName, emergencyContactPhone }: CommandMatrixProps) {
   const t = translations[language];
   const modeLabel = relationshipLabels[relationshipMode];
 
@@ -313,6 +315,15 @@ export function CommandMatrix({ onCardClick, language, relationshipMode }: Comma
       onCardClick(variations);
       
       const textToSpeak = variations[0].en;
+      
+      // Special handling for alert messages - send to WhatsApp
+      if (messageKey === "alert" && emergencyContactPhone) {
+        const alertMessage = `🚨 EMERGENCY ALERT from ${emergencyContactName || "Unknown"}: ${textToSpeak}`;
+        const whatsappPhone = emergencyContactPhone.replace(/[^0-9]/g, "");
+        const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(alertMessage)}`;
+        window.open(whatsappUrl, "_blank");
+      }
+      
       if ("speechSynthesis" in window) {
         window.speechSynthesis.cancel();
         const utterance = new SpeechSynthesisUtterance(textToSpeak);

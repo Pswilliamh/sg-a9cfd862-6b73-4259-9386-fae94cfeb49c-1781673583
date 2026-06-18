@@ -12,6 +12,8 @@ import { GoogleMapsView } from "@/components/GoogleMapsView";
 import { YouTubeView } from "@/components/YouTubeView";
 import { CalendarView } from "@/components/CalendarView";
 import { CalculatorView } from "@/components/CalculatorView";
+import { VaultOverlay } from "@/components/VaultOverlay";
+import { SecurityContactModal } from "@/components/SecurityContactModal";
 import { SEO } from "@/components/SEO";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Radio } from "lucide-react";
@@ -24,6 +26,10 @@ export default function Home() {
   const [language, setLanguage] = useState<"en" | "id">("en");
   const [currentView, setCurrentView] = useState<"matrix" | "maps" | "youtube" | "calendar" | "calculator">("matrix");
   const [scenario, setScenario] = useState<ScenarioType>("local");
+  const [activeVault, setActiveVault] = useState<"daily" | "transport" | "financial" | null>(null);
+  const [showSecurityModal, setShowSecurityModal] = useState(false);
+  const [emergencyContactName, setEmergencyContactName] = useState("Emergency Coordinator");
+  const [emergencyContactPhone, setEmergencyContactPhone] = useState("+1234567890");
 
   const addChatMessage = (textEn: string, textId: string) => {
     let formattedEn = textEn;
@@ -88,6 +94,40 @@ export default function Home() {
     }
   };
 
+  const handleVaultOpen = (vault: "daily" | "transport" | "financial") => {
+    setActiveVault(vault);
+  };
+
+  const handleVaultClose = () => {
+    setActiveVault(null);
+  };
+
+  const handleSecurityOpen = () => {
+    setShowSecurityModal(true);
+  };
+
+  const handleSecuritySave = (name: string, phone: string) => {
+    setEmergencyContactName(name);
+    setEmergencyContactPhone(phone);
+  };
+
+  const handleVaultSendText = (textEn: string, textId: string) => {
+    addChatMessage(textEn, textId);
+  };
+
+  const handleVaultSendVoice = (text: string) => {
+    if ("speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "en-US";
+      utterance.rate = 1.0;
+      utterance.pitch = 1.0;
+      utterance.volume = 1.0;
+      window.speechSynthesis.speak(utterance);
+    }
+    addChatMessage(text, text);
+  };
+
   return (
     <>
       <SEO 
@@ -126,11 +166,19 @@ export default function Home() {
           <NavigationDock 
             onGeminiClick={() => setIsGeminiOpen(true)} 
             onViewChange={handleViewChange}
+            onVaultOpen={handleVaultOpen}
+            onSecurityOpen={handleSecurityOpen}
           />
           <div className="flex-1 flex flex-col overflow-hidden">
             {currentView === "matrix" && (
               <>
-                <CommandMatrix onCardClick={handleCardClick} language={language} relationshipMode={relationshipMode} />
+                <CommandMatrix 
+                  onCardClick={handleCardClick} 
+                  language={language} 
+                  relationshipMode={relationshipMode}
+                  emergencyContactName={emergencyContactName}
+                  emergencyContactPhone={emergencyContactPhone}
+                />
                 <TTSAudioBar onSendMessage={handleTTSMessage} />
               </>
             )}
@@ -145,6 +193,27 @@ export default function Home() {
             onClose={() => setIsGeminiOpen(false)}
             onSendToPreview={handleSendToPreview}
           />
+          
+          {/* Vault Overlays */}
+          {activeVault && (
+            <VaultOverlay
+              theme={activeVault}
+              onClose={handleVaultClose}
+              onSendText={handleVaultSendText}
+              onSendVoice={handleVaultSendVoice}
+              language={language}
+            />
+          )}
+
+          {/* Security Contact Modal */}
+          {showSecurityModal && (
+            <SecurityContactModal
+              onClose={() => setShowSecurityModal(false)}
+              onSave={handleSecuritySave}
+              currentName={emergencyContactName}
+              currentPhone={emergencyContactPhone}
+            />
+          )}
         </div>
       </div>
     </>

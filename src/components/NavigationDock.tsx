@@ -26,26 +26,52 @@ const modules: NavModule[] = [
 interface NavigationDockProps {
   onGeminiClick: () => void;
   onViewChange?: (view: string) => void;
+  onVaultOpen?: (vault: "daily" | "transport" | "financial") => void;
+  onSecurityOpen?: () => void;
 }
 
-export function NavigationDock({ onGeminiClick, onViewChange }: NavigationDockProps) {
+export function NavigationDock({ onGeminiClick, onViewChange, onVaultOpen, onSecurityOpen }: NavigationDockProps) {
   return (
     <aside className="w-32 bg-navigation flex flex-col items-center py-8 gap-4 overflow-y-auto sidebar-scroll">
-      {modules.map((module) => {
-        const Icon = module.icon;
-        return (
-          <button
-            key={module.id}
-            onClick={() => onViewChange?.("matrix")}
-            className="flex flex-col items-center gap-2 px-4 py-6 w-full hover:bg-white/10 transition-colors group"
-          >
-            <Icon className={cn("w-10 h-10", module.color, "group-hover:scale-110 transition-transform")} />
-            <span className="text-white text-xs font-semibold tracking-wide text-center leading-tight">
-              {module.label}
-            </span>
-          </button>
-        );
-      })}
+      <button
+        onClick={() => onVaultOpen?.("daily")}
+        className="flex flex-col items-center gap-2 px-4 py-6 w-full hover:bg-white/10 transition-colors group"
+      >
+        <Home className="w-10 h-10 text-blue-400 group-hover:scale-110 transition-transform" />
+        <span className="text-white text-xs font-semibold tracking-wide text-center leading-tight">
+          DAILY LIFE
+        </span>
+      </button>
+
+      <button
+        onClick={() => onVaultOpen?.("transport")}
+        className="flex flex-col items-center gap-2 px-4 py-6 w-full hover:bg-white/10 transition-colors group"
+      >
+        <Truck className="w-10 h-10 text-transport group-hover:scale-110 transition-transform" />
+        <span className="text-white text-xs font-semibold tracking-wide text-center leading-tight">
+          TRANSPORT
+        </span>
+      </button>
+
+      <button
+        onClick={() => onVaultOpen?.("financial")}
+        className="flex flex-col items-center gap-2 px-4 py-6 w-full hover:bg-white/10 transition-colors group"
+      >
+        <DollarSign className="w-10 h-10 text-financial group-hover:scale-110 transition-transform" />
+        <span className="text-white text-xs font-semibold tracking-wide text-center leading-tight">
+          FINANCIAL
+        </span>
+      </button>
+
+      <button
+        onClick={onSecurityOpen}
+        className="flex flex-col items-center gap-2 px-4 py-6 w-full hover:bg-white/10 transition-colors group"
+      >
+        <Shield className="w-10 h-10 text-security group-hover:scale-110 transition-transform" />
+        <span className="text-white text-xs font-semibold tracking-wide text-center leading-tight">
+          SECURITY
+        </span>
+      </button>
 
       <div className="w-full border-t border-white/20 my-2" />
 
