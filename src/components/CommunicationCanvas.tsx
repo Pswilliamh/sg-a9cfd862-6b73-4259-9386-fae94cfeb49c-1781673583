@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { MessageSquare, Video, MessageCircle, Users, Mic, Camera, Monitor } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { MessageSquare, Video, MessageCircle, Users, Mic, Camera, Monitor, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import type { ScenarioType } from "./SovereignHeader";
 
 export interface ChatMessage {
@@ -16,14 +17,29 @@ export interface ChatMessage {
 interface CommunicationCanvasProps {
   messages: ChatMessage[];
   scenario: ScenarioType;
+  onManualMessage?: (text: string) => void;
 }
 
-export function CommunicationCanvas({ messages, scenario }: CommunicationCanvasProps) {
+export function CommunicationCanvas({ messages, scenario, onManualMessage }: CommunicationCanvasProps) {
+  const [replyText, setReplyText] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  const handleSendReply = () => {
+    if (replyText.trim() && onManualMessage) {
+      onManualMessage(replyText);
+      setReplyText("");
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      handleSendReply();
+    }
+  };
 
   const handleJoinZoom = () => {
     console.log("Simulating Zoom session join...");
@@ -129,6 +145,25 @@ export function CommunicationCanvas({ messages, scenario }: CommunicationCanvasP
                 </>
               )}
             </div>
+
+            {/* Inline Reply Input */}
+            <div className="border-t border-gray-700 bg-gray-900 p-2 flex gap-2">
+              <Input
+                value={replyText}
+                onChange={(e) => setReplyText(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="Type manual classroom note or reply here..."
+                className="flex-1 bg-gray-800 border-gray-600 text-white text-xs placeholder:text-gray-500 focus:border-blue-500"
+              />
+              <Button
+                onClick={handleSendReply}
+                size="sm"
+                disabled={!replyText.trim()}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-3"
+              >
+                <Send className="w-3 h-3" />
+              </Button>
+            </div>
           </div>
         </div>
 
@@ -152,7 +187,7 @@ export function CommunicationCanvas({ messages, scenario }: CommunicationCanvasP
   // Default WhatsApp-style Chat Mode
   return (
     <aside className="w-96 bg-muted/30 border-l border-muted flex flex-col p-6 relative">
-      <div className="flex-1 bg-white rounded-lg border-2 border-accent/30 shadow-lg flex flex-col overflow-hidden">
+      <div className="flex-1 bg-white rounded-lg border-2 border-accent/30 shadow-lg flex flex-col overflow-hidden mb-24">
         <div className="flex items-center justify-between gap-3 px-6 py-4 border-b border-muted bg-accent/5">
           <div className="flex items-center gap-3">
             <MessageSquare className="w-6 h-6 text-accent" />
@@ -195,6 +230,25 @@ export function CommunicationCanvas({ messages, scenario }: CommunicationCanvasP
               <div ref={messagesEndRef} />
             </>
           )}
+        </div>
+
+        {/* Inline Reply Input Panel */}
+        <div className="border-t-2 border-accent/20 bg-accent/5 p-3 flex gap-2">
+          <Input
+            value={replyText}
+            onChange={(e) => setReplyText(e.target.value)}
+            onKeyPress={handleKeyPress}
+            placeholder="Type manual classroom note or reply here..."
+            className="flex-1 border-accent/40 focus:border-accent text-sm"
+          />
+          <Button
+            onClick={handleSendReply}
+            size="sm"
+            disabled={!replyText.trim()}
+            className="bg-accent hover:bg-accent/90 text-white font-semibold px-4"
+          >
+            <Send className="w-4 h-4" />
+          </Button>
         </div>
       </div>
 

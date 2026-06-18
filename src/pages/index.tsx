@@ -88,6 +88,10 @@ export default function Home() {
     addChatMessage(text, text);
   };
 
+  const handleManualMessage = (text: string) => {
+    addChatMessage(text, text);
+  };
+
   const handleViewChange = (view: string) => {
     if (view === "matrix" || view === "maps" || view === "youtube" || view === "calendar" || view === "calculator") {
       setCurrentView(view);
@@ -187,7 +191,11 @@ export default function Home() {
             {currentView === "calendar" && <CalendarView />}
             {currentView === "calculator" && <CalculatorView />}
           </div>
-          <CommunicationCanvas messages={chatMessages} scenario={scenario} />
+          <CommunicationCanvas 
+            messages={chatMessages} 
+            scenario={scenario}
+            onManualMessage={handleManualMessage}
+          />
           <GeminiChatbox 
             isOpen={isGeminiOpen} 
             onClose={() => setIsGeminiOpen(false)}
