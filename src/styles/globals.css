@@ -115,31 +115,115 @@
   }
 }
 
-/* Custom Keyframe Animations for Interactive Cards */
-@keyframes dynamic-sway {
-  0%, 100% { 
-    transform: rotate(-6deg); 
+/* Custom Keyframe Animations for Interactive Cards - Bold Kinetic Cartoon Style */
+@keyframes car-zoom {
+  0% { 
+    transform: translateX(-100%) scale(0.8);
+    opacity: 0.5;
   }
   50% { 
-    transform: rotate(6deg); 
+    transform: translateX(0%) scale(1.1);
+    opacity: 1;
+  }
+  100% { 
+    transform: translateX(100%) scale(0.8);
+    opacity: 0.5;
   }
 }
 
-@keyframes dynamic-pulse {
+@keyframes pants-dance {
   0%, 100% { 
-    transform: scale(0.94); 
+    transform: rotate(-15deg) translateY(0px);
+  }
+  25% { 
+    transform: rotate(15deg) translateY(-8px);
   }
   50% { 
-    transform: scale(1.06); 
+    transform: rotate(-10deg) translateY(-4px);
+  }
+  75% { 
+    transform: rotate(10deg) translateY(-8px);
   }
 }
 
-.v-sway {
-  animation: dynamic-sway 2.5s ease-in-out infinite;
-  will-change: transform;
+@keyframes shoes-march {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% { 
+    transform: translateY(-10px) rotate(-5deg);
+  }
+  50% { 
+    transform: translateY(0px) rotate(0deg);
+  }
+  75% { 
+    transform: translateY(-10px) rotate(5deg);
+  }
 }
 
-.v-pulse {
-  animation: dynamic-pulse 2s ease-in-out infinite;
-  will-change: transform;
+@keyframes payment-flash {
+  0%, 100% { 
+    transform: scale(1);
+    filter: brightness(1) drop-shadow(0 0 0px gold);
+  }
+  50% { 
+    transform: scale(1.3);
+    filter: brightness(1.5) drop-shadow(0 0 15px gold);
+  }
+}
+
+@keyframes water-splash {
+  0% { 
+    transform: translateY(-20px) scale(0.8);
+    opacity: 0.3;
+  }
+  30% { 
+    transform: translateY(0px) scale(1);
+    opacity: 1;
+  }
+  50% { 
+    transform: translateY(5px) scale(1.2);
+  }
+  70% { 
+    transform: translateY(0px) scale(1.1);
+  }
+  100% { 
+    transform: translateY(-20px) scale(0.8);
+    opacity: 0.3;
+  }
+}
+
+@keyframes meals-steam {
+  0%, 100% { 
+    transform: translateY(0px) scale(1) rotate(0deg);
+    opacity: 0.8;
+  }
+  50% { 
+    transform: translateY(-6px) scale(1.1) rotate(3deg);
+    opacity: 1;
+  }
+}
+
+.kinetic-car {
+  animation: car-zoom 3s ease-in-out infinite;
+}
+
+.kinetic-pants {
+  animation: pants-dance 1.5s ease-in-out infinite;
+}
+
+.kinetic-shoes {
+  animation: shoes-march 1.2s ease-in-out infinite;
+}
+
+.kinetic-payment {
+  animation: payment-flash 2s ease-in-out infinite;
+}
+
+.kinetic-water {
+  animation: water-splash 2.5s ease-in-out infinite;
+}
+
+.kinetic-meals {
+  animation: meals-steam 2s ease-in-out infinite;
 }

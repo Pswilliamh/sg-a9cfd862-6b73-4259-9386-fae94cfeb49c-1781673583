@@ -1,6 +1,8 @@
 "use client";
 
 import { UtensilsCrossed, Droplet, Apple, Shirt, User2, Footprints, Car, Truck, MapPin, Shield, DollarSign, Home } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import type { RelationshipMode } from "@/components/RelationshipToggle";
 
 const translations = {
   en: {
@@ -55,6 +57,12 @@ const translations = {
     schedule: "Jadwal",
     tasks: "Tugas",
   },
+};
+
+const relationshipLabels = {
+  formal: { en: "Formal", id: "Formal", icon: "👑" },
+  endearment: { en: "Endearment", id: "Sayang", icon: "❤️" },
+  peer: { en: "Peer", id: "Teman", icon: "🌱" },
 };
 
 const phraseVariations = {
@@ -171,64 +179,66 @@ const phraseVariations = {
 interface CommandMatrixProps {
   onCardClick?: (variations: Array<{ en: string; id: string }>) => void;
   language: "en" | "id";
+  relationshipMode: RelationshipMode;
 }
 
-export function CommandMatrix({ onCardClick, language }: CommandMatrixProps) {
+export function CommandMatrix({ onCardClick, language, relationshipMode }: CommandMatrixProps) {
   const t = translations[language];
+  const modeLabel = relationshipLabels[relationshipMode];
 
   const categories = [
     {
       id: 1,
       title: t.nourishment,
       items: [
-        { icon: UtensilsCrossed, label: t.meals, messageKey: "meals" },
-        { icon: Droplet, label: t.water, messageKey: "water" },
-        { icon: Apple, label: t.snacks, messageKey: "snacks" },
+        { icon: UtensilsCrossed, label: t.meals, messageKey: "meals", animation: "kinetic-meals" },
+        { icon: Droplet, label: t.water, messageKey: "water", animation: "kinetic-water" },
+        { icon: Apple, label: t.snacks, messageKey: "snacks", animation: "kinetic-meals" },
       ],
     },
     {
       id: 2,
       title: t.wardrobe,
       items: [
-        { icon: Shirt, label: t.shirts, messageKey: "shirts" },
-        { icon: User2, label: t.pants, messageKey: "pants" },
-        { icon: Footprints, label: t.shoes, messageKey: "shoes" },
+        { icon: Shirt, label: t.shirts, messageKey: "shirts", animation: "" },
+        { icon: User2, label: t.pants, messageKey: "pants", animation: "kinetic-pants" },
+        { icon: Footprints, label: t.shoes, messageKey: "shoes", animation: "kinetic-shoes" },
       ],
     },
     {
       id: 3,
       title: t.transport,
       items: [
-        { icon: Car, label: t.car, messageKey: "car" },
-        { icon: Truck, label: t.truck, messageKey: "truck" },
-        { icon: MapPin, label: t.location, messageKey: "location" },
+        { icon: Car, label: t.car, messageKey: "car", animation: "kinetic-car" },
+        { icon: Truck, label: t.truck, messageKey: "truck", animation: "kinetic-car" },
+        { icon: MapPin, label: t.location, messageKey: "location", animation: "" },
       ],
     },
     {
       id: 4,
       title: t.security,
       items: [
-        { icon: Shield, label: t.protection, messageKey: "protection" },
-        { icon: Shield, label: t.safety, messageKey: "safety" },
-        { icon: Shield, label: t.alert, messageKey: "alert" },
+        { icon: Shield, label: t.protection, messageKey: "protection", animation: "" },
+        { icon: Shield, label: t.safety, messageKey: "safety", animation: "" },
+        { icon: Shield, label: t.alert, messageKey: "alert", animation: "kinetic-payment" },
       ],
     },
     {
       id: 5,
       title: t.financial,
       items: [
-        { icon: DollarSign, label: t.payment, messageKey: "payment" },
-        { icon: DollarSign, label: t.budget, messageKey: "budget" },
-        { icon: DollarSign, label: t.account, messageKey: "account" },
+        { icon: DollarSign, label: t.payment, messageKey: "payment", animation: "kinetic-payment" },
+        { icon: DollarSign, label: t.budget, messageKey: "budget", animation: "" },
+        { icon: DollarSign, label: t.account, messageKey: "account", animation: "" },
       ],
     },
     {
       id: 6,
       title: t.dailyLife,
       items: [
-        { icon: Home, label: t.home, messageKey: "home" },
-        { icon: Home, label: t.schedule, messageKey: "schedule" },
-        { icon: Home, label: t.tasks, messageKey: "tasks" },
+        { icon: Home, label: t.home, messageKey: "home", animation: "" },
+        { icon: Home, label: t.schedule, messageKey: "schedule", animation: "" },
+        { icon: Home, label: t.tasks, messageKey: "tasks", animation: "" },
       ],
     },
   ];
@@ -252,41 +262,36 @@ export function CommandMatrix({ onCardClick, language }: CommandMatrixProps) {
   };
 
   return (
-    <main className="flex-1 p-8 bg-background overflow-auto">
-      <div className="grid grid-cols-3 grid-rows-2 gap-6 h-full">
+    <main className="flex-1 p-4 md:p-8 bg-background overflow-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 grid-rows-auto md:grid-rows-2 gap-4 md:gap-6 h-full">
         {categories.map((category) => (
           <div
             key={category.id}
             className="bg-white rounded-lg border-2 border-card-glow/30 shadow-lg shadow-card-glow/20 hover:border-card-glow/60 hover:shadow-card-glow/40 transition-all duration-300 flex flex-col"
             style={{ backgroundColor: "#F8FAFC" }}
           >
-            <h3 className="text-xl font-bold text-center font-heading py-4" style={{ color: "#000000" }}>
-              {category.title}
-            </h3>
-            <div className="grid grid-cols-3 gap-3 p-2 flex-1">
+            <div className="flex items-center justify-between py-3 px-4 border-b border-slate-200">
+              <h3 className="text-lg md:text-xl font-bold font-heading" style={{ color: "#000000" }}>
+                {category.title}
+              </h3>
+              <Badge variant="outline" className="text-xs font-semibold border-accent/40 text-accent">
+                {modeLabel.icon} {modeLabel[language]}
+              </Badge>
+            </div>
+            <div className="grid grid-cols-3 gap-2 md:gap-3 p-2 flex-1">
               {category.items.map((item, idx) => {
                 const Icon = item.icon;
-                
-                // Determine animation class based on category
-                let animationClass = "";
-                if (category.id === 2) {
-                  // Wardrobe items - sway animation
-                  animationClass = "v-sway";
-                } else if (category.id === 1) {
-                  // Nourishment items - pulse animation
-                  animationClass = "v-pulse";
-                }
                 
                 return (
                   <button
                     key={idx}
                     onClick={() => handleItemClick(item.messageKey)}
-                    className={`flex flex-col items-center justify-start active:scale-[0.92] active:bg-blue-50 cursor-pointer rounded-xl overflow-hidden ${animationClass ? '' : 'duration-150'}`}
+                    className="flex flex-col items-center justify-start active:scale-[0.92] active:bg-blue-50 duration-150 cursor-pointer rounded-xl overflow-hidden"
                   >
                     {/* Top 65% - Visual Box */}
-                    <div className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 flex items-center justify-center" style={{ height: "65%" }}>
-                      {animationClass ? (
-                        <div className={animationClass} style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", transformOrigin: "center" }}>
+                    <div className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2 md:p-3 flex items-center justify-center" style={{ height: "65%" }}>
+                      {item.animation ? (
+                        <div className={item.animation} style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", transformOrigin: "center" }}>
                           <Icon className="w-full h-full text-accent" strokeWidth={2} />
                         </div>
                       ) : (
@@ -295,7 +300,7 @@ export function CommandMatrix({ onCardClick, language }: CommandMatrixProps) {
                     </div>
                     {/* Bottom 35% - Label */}
                     <div className="w-full flex items-center justify-center" style={{ height: "35%" }}>
-                      <span className="text-sm font-bold text-center leading-tight px-1" style={{ color: "#000000" }}>
+                      <span className="text-xs md:text-sm font-bold text-center leading-tight px-1" style={{ color: "#000000" }}>
                         {item.label}
                       </span>
                     </div>

@@ -128,7 +128,7 @@ export default function Home() {
           <div className="flex-1 flex flex-col overflow-hidden">
             {currentView === "matrix" && (
               <>
-                <CommandMatrix onCardClick={handleCardClick} language={language} />
+                <CommandMatrix onCardClick={handleCardClick} language={language} relationshipMode={relationshipMode} />
                 <TTSAudioBar onSendMessage={handleTTSMessage} />
               </>
             )}
