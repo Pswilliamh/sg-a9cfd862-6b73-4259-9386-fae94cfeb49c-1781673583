@@ -15,11 +15,13 @@ import { CalendarView } from "@/components/CalendarView";
 import { CalculatorView } from "@/components/CalculatorView";
 import { VaultOverlay } from "@/components/VaultOverlay";
 import { SecurityContactModal } from "@/components/SecurityContactModal";
+import { PasswordGate } from "@/components/PasswordGate";
 import { SEO } from "@/components/SEO";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Radio } from "lucide-react";
 
 export default function Home() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isGeminiOpen, setIsGeminiOpen] = useState(false);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [relationshipMode, setRelationshipMode] = useState<RelationshipMode>("formal");
@@ -170,94 +172,102 @@ export default function Home() {
         title="Dominion Freedom Pad"
         description="Emergency operations tablet interface for critical response and command coordination"
       />
-      <div className="h-screen w-screen overflow-hidden flex flex-col bg-background">
-        <SovereignHeader />
-        
-        {isOffline && (
-          <Alert className="rounded-none border-x-0 border-t-0 border-b-4 border-transport bg-transport/10">
-            <Radio className="h-5 w-5 text-transport animate-pulse" />
-            <AlertDescription className="text-transport font-bold text-base flex items-center gap-2">
-              Local Sovereign Network Active - Operating Fully Offline
-            </AlertDescription>
-          </Alert>
-        )}
-        
-        {scenario === "zoom" && (
-          <Alert className="rounded-none border-x-0 border-t-0 border-b-2 border-blue-600 bg-blue-50">
-            <AlertDescription className="text-blue-700 font-semibold text-sm flex items-center gap-2">
-              📹 Zoom Mode Active: All messages will route to Zoom chat stream and closed-caption subtitles
-            </AlertDescription>
-          </Alert>
-        )}
-        
-        <RelationshipToggle onModeChange={setRelationshipMode} />
-        <div className="flex-1 flex overflow-hidden">
-          <NavigationDock 
-            onGeminiClick={() => setIsGeminiOpen(true)} 
-            onViewChange={handleViewChange}
-            onVaultOpen={handleVaultOpen}
-            onSecurityOpen={handleSecurityOpen}
-          />
-          <div className="flex-1 flex flex-col overflow-hidden">
-            {currentView === "matrix" && (
-              <>
-                <CommandMatrix 
-                  onCardClick={handleCardClick} 
-                  language={language} 
-                  relationshipMode={relationshipMode}
-                  emergencyContactName={emergencyContactName}
-                  emergencyContactPhone={emergencyContactPhone}
-                />
-                <TTSAudioBar onSendMessage={handleTTSMessage} language={language} />
-              </>
-            )}
-            {currentView === "maps" && <GoogleMapsView />}
-            {currentView === "youtube" && <YouTubeView />}
-            {currentView === "calendar" && <CalendarView />}
-            {currentView === "calculator" && <CalculatorView />}
-          </div>
-          <CommunicationCanvas 
-            messages={chatMessages} 
-            scenario={scenario}
-            onManualMessage={handleManualMessage}
-          />
-          <GeminiChatbox 
-            isOpen={isGeminiOpen} 
-            onClose={() => setIsGeminiOpen(false)}
-            onSendToPreview={handleSendToPreview}
-          />
-          
-          {/* Vault Overlays */}
-          {activeVault && (
-            <VaultOverlay
-              theme={activeVault}
-              onClose={handleVaultClose}
-              onSendText={handleVaultSendText}
-              onSendVoice={handleVaultSendVoice}
-              language={language}
-            />
-          )}
-
-          {/* Security Contact Modal */}
-          {showSecurityModal && (
-            <SecurityContactModal
-              onClose={() => setShowSecurityModal(false)}
-              onSave={handleSecuritySave}
-              currentName={emergencyContactName}
-              currentPhone={emergencyContactPhone}
-            />
-          )}
-        </div>
-
-        <SystemFooter
-          isOffline={isOffline}
-          onOfflineToggle={setIsOffline}
+      
+      {!isAuthenticated ? (
+        <PasswordGate 
+          onAuthenticated={() => setIsAuthenticated(true)}
           language={language}
-          onLanguageChange={setLanguage}
-          scenario={scenario}
-          onScenarioChange={setScenario}
         />
-      </div>
+      ) : (
+        <div className="h-screen w-screen overflow-hidden flex flex-col bg-background">
+          <SovereignHeader />
+          
+          {isOffline && (
+            <Alert className="rounded-none border-x-0 border-t-0 border-b-4 border-transport bg-transport/10">
+              <Radio className="h-5 w-5 text-transport animate-pulse" />
+              <AlertDescription className="text-transport font-bold text-base flex items-center gap-2">
+                Local Sovereign Network Active - Operating Fully Offline
+              </AlertDescription>
+            </Alert>
+          )}
+          
+          {scenario === "zoom" && (
+            <Alert className="rounded-none border-x-0 border-t-0 border-b-2 border-blue-600 bg-blue-50">
+              <AlertDescription className="text-blue-700 font-semibold text-sm flex items-center gap-2">
+                📹 Zoom Mode Active: All messages will route to Zoom chat stream and closed-caption subtitles
+              </AlertDescription>
+            </Alert>
+          )}
+          
+          <RelationshipToggle onModeChange={setRelationshipMode} />
+          <div className="flex-1 flex overflow-hidden">
+            <NavigationDock 
+              onGeminiClick={() => setIsGeminiOpen(true)} 
+              onViewChange={handleViewChange}
+              onVaultOpen={handleVaultOpen}
+              onSecurityOpen={handleSecurityOpen}
+            />
+            <div className="flex-1 flex flex-col overflow-hidden">
+              {currentView === "matrix" && (
+                <>
+                  <CommandMatrix 
+                    onCardClick={handleCardClick} 
+                    language={language} 
+                    relationshipMode={relationshipMode}
+                    emergencyContactName={emergencyContactName}
+                    emergencyContactPhone={emergencyContactPhone}
+                  />
+                  <TTSAudioBar onSendMessage={handleTTSMessage} language={language} />
+                </>
+              )}
+              {currentView === "maps" && <GoogleMapsView />}
+              {currentView === "youtube" && <YouTubeView />}
+              {currentView === "calendar" && <CalendarView />}
+              {currentView === "calculator" && <CalculatorView />}
+            </div>
+            <CommunicationCanvas 
+              messages={chatMessages} 
+              scenario={scenario}
+              onManualMessage={handleManualMessage}
+            />
+            <GeminiChatbox 
+              isOpen={isGeminiOpen} 
+              onClose={() => setIsGeminiOpen(false)}
+              onSendToPreview={handleSendToPreview}
+            />
+            
+            {/* Vault Overlays */}
+            {activeVault && (
+              <VaultOverlay
+                theme={activeVault}
+                onClose={handleVaultClose}
+                onSendText={handleVaultSendText}
+                onSendVoice={handleVaultSendVoice}
+                language={language}
+              />
+            )}
+
+            {/* Security Contact Modal */}
+            {showSecurityModal && (
+              <SecurityContactModal
+                onClose={() => setShowSecurityModal(false)}
+                onSave={handleSecuritySave}
+                currentName={emergencyContactName}
+                currentPhone={emergencyContactPhone}
+              />
+            )}
+          </div>
+
+          <SystemFooter
+            isOffline={isOffline}
+            onOfflineToggle={setIsOffline}
+            language={language}
+            onLanguageChange={setLanguage}
+            scenario={scenario}
+            onScenarioChange={setScenario}
+          />
+        </div>
+      )}
     </>
   );
 }
