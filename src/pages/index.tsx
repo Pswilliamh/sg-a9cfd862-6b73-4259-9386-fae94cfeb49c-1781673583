@@ -10,6 +10,8 @@ import { GeminiChatbox } from "@/components/GeminiChatbox";
 import { TTSAudioBar } from "@/components/TTSAudioBar";
 import { GoogleMapsView } from "@/components/GoogleMapsView";
 import { YouTubeView } from "@/components/YouTubeView";
+import { CalendarView } from "@/components/CalendarView";
+import { CalculatorView } from "@/components/CalculatorView";
 import { SEO } from "@/components/SEO";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Radio } from "lucide-react";
@@ -20,7 +22,7 @@ export default function Home() {
   const [relationshipMode, setRelationshipMode] = useState<RelationshipMode>("formal");
   const [isOffline, setIsOffline] = useState(false);
   const [language, setLanguage] = useState<"en" | "id">("en");
-  const [currentView, setCurrentView] = useState<"matrix" | "maps" | "youtube">("matrix");
+  const [currentView, setCurrentView] = useState<"matrix" | "maps" | "youtube" | "calendar" | "calculator">("matrix");
   const [scenario, setScenario] = useState<ScenarioType>("local");
 
   const addChatMessage = (textEn: string, textId: string) => {
@@ -81,7 +83,7 @@ export default function Home() {
   };
 
   const handleViewChange = (view: string) => {
-    if (view === "matrix" || view === "maps" || view === "youtube") {
+    if (view === "matrix" || view === "maps" || view === "youtube" || view === "calendar" || view === "calculator") {
       setCurrentView(view);
     }
   };
@@ -134,6 +136,8 @@ export default function Home() {
             )}
             {currentView === "maps" && <GoogleMapsView />}
             {currentView === "youtube" && <YouTubeView />}
+            {currentView === "calendar" && <CalendarView />}
+            {currentView === "calculator" && <CalculatorView />}
           </div>
           <CommunicationCanvas messages={chatMessages} scenario={scenario} />
           <GeminiChatbox 

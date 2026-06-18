@@ -242,6 +242,8 @@ export function CommandMatrix({ onCardClick, language, relationshipMode }: Comma
     {
       id: 1,
       title: t.nourishment,
+      borderColor: "border-blue-400",
+      bgColor: "bg-blue-50",
       items: [
         { icon: UtensilsCrossed, label: t.meals, messageKey: "meals", animation: "kinetic-meals", signIcon: "eating" },
         { icon: Droplet, label: t.water, messageKey: "water", animation: "kinetic-water", signIcon: "drinking" },
@@ -251,6 +253,8 @@ export function CommandMatrix({ onCardClick, language, relationshipMode }: Comma
     {
       id: 2,
       title: t.wardrobe,
+      borderColor: "border-green-500",
+      bgColor: "bg-green-50",
       items: [
         { icon: Shirt, label: t.shirts, messageKey: "shirts", animation: "", signIcon: "clothing" },
         { icon: User2, label: t.pants, messageKey: "pants", animation: "kinetic-pants", signIcon: "clothing" },
@@ -260,6 +264,8 @@ export function CommandMatrix({ onCardClick, language, relationshipMode }: Comma
     {
       id: 3,
       title: t.transport,
+      borderColor: "border-amber-400",
+      bgColor: "bg-amber-50",
       items: [
         { icon: Car, label: t.car, messageKey: "car", animation: "kinetic-car", signIcon: "driving" },
         { icon: Truck, label: t.truck, messageKey: "truck", animation: "kinetic-car", signIcon: "driving" },
@@ -269,6 +275,8 @@ export function CommandMatrix({ onCardClick, language, relationshipMode }: Comma
     {
       id: 4,
       title: t.security,
+      borderColor: "border-red-500",
+      bgColor: "bg-red-50",
       items: [
         { icon: Shield, label: t.protection, messageKey: "protection", animation: "", signIcon: "money" },
         { icon: Shield, label: t.safety, messageKey: "safety", animation: "", signIcon: "money" },
@@ -278,6 +286,8 @@ export function CommandMatrix({ onCardClick, language, relationshipMode }: Comma
     {
       id: 5,
       title: t.financial,
+      borderColor: "border-purple-600",
+      bgColor: "bg-purple-50",
       items: [
         { icon: DollarSign, label: t.payment, messageKey: "payment", animation: "kinetic-payment", signIcon: "money" },
         { icon: DollarSign, label: t.budget, messageKey: "budget", animation: "", signIcon: "money" },
@@ -287,6 +297,8 @@ export function CommandMatrix({ onCardClick, language, relationshipMode }: Comma
     {
       id: 6,
       title: t.dailyLife,
+      borderColor: "border-navigation",
+      bgColor: "bg-slate-50",
       items: [
         { icon: Home, label: t.home, messageKey: "home", animation: "", signIcon: "eating" },
         { icon: Home, label: t.schedule, messageKey: "schedule", animation: "", signIcon: "eating" },
@@ -319,10 +331,9 @@ export function CommandMatrix({ onCardClick, language, relationshipMode }: Comma
         {categories.map((category) => (
           <div
             key={category.id}
-            className="bg-white rounded-lg border-2 border-card-glow/30 shadow-lg shadow-card-glow/20 hover:border-card-glow/60 hover:shadow-card-glow/40 transition-all duration-300 flex flex-col"
-            style={{ backgroundColor: "#F8FAFC" }}
+            className={`bg-white rounded-lg border-4 ${category.borderColor} shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col`}
           >
-            <div className="flex items-center justify-between py-3 px-4 border-b border-slate-200">
+            <div className={`flex items-center justify-between py-3 px-4 border-b-2 ${category.borderColor} ${category.bgColor}`}>
               <h3 className="text-lg md:text-xl font-bold font-heading" style={{ color: "#000000" }}>
                 {category.title}
               </h3>

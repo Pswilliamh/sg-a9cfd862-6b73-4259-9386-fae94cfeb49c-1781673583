@@ -49,14 +49,20 @@ export function NavigationDock({ onGeminiClick, onViewChange }: NavigationDockPr
 
       <div className="w-full border-t border-white/20 my-2" />
 
-      <button className="flex flex-col items-center gap-2 px-4 py-4 w-full hover:bg-white/10 transition-colors group">
+      <button 
+        onClick={() => onViewChange?.("calendar")}
+        className="flex flex-col items-center gap-2 px-4 py-4 w-full hover:bg-white/10 transition-colors group"
+      >
         <Calendar className="w-8 h-8 text-white group-hover:scale-110 transition-transform" />
         <span className="text-white text-xs font-semibold tracking-wide text-center">
           CALENDAR
         </span>
       </button>
 
-      <button className="flex flex-col items-center gap-2 px-4 py-4 w-full hover:bg-white/10 transition-colors group">
+      <button 
+        onClick={() => onViewChange?.("calculator")}
+        className="flex flex-col items-center gap-2 px-4 py-4 w-full hover:bg-white/10 transition-colors group"
+      >
         <Calculator className="w-8 h-8 text-white group-hover:scale-110 transition-transform" />
         <span className="text-white text-xs font-semibold tracking-wide text-center">
           CALCULATOR
@@ -98,13 +104,13 @@ export function NavigationDock({ onGeminiClick, onViewChange }: NavigationDockPr
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent side="right" className="ml-2">
+          <DropdownMenuItem onClick={() => window.open("https://docs.google.com/spreadsheets/create", "_blank")}>
+            <span className="text-green-600 font-semibold mr-2">📊</span>
+            Financial Ledger (Sheets)
+          </DropdownMenuItem>
           <DropdownMenuItem>
             <span className="text-blue-600 font-semibold mr-2">📄</span>
             Google Docs
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <span className="text-green-600 font-semibold mr-2">📊</span>
-            Google Sheets
           </DropdownMenuItem>
           <DropdownMenuItem>
             <span className="text-yellow-600 font-semibold mr-2">📁</span>
