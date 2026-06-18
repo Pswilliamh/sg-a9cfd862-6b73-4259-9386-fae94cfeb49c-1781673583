@@ -285,7 +285,9 @@ export function CommandMatrix({ onCardClick, language }: CommandMatrixProps) {
                   >
                     {/* Top 65% - Visual Box */}
                     <div className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 flex items-center justify-center" style={{ height: "65%" }}>
-                      <Icon className={`w-full h-full text-accent ${animationClass}`} strokeWidth={2} />
+                      <div className={`w-full h-full flex items-center justify-center ${animationClass}`}>
+                        <Icon className="w-full h-full text-accent" strokeWidth={2} />
+                      </div>
                     </div>
                     {/* Bottom 35% - Label */}
                     <div className="w-full flex items-center justify-center" style={{ height: "35%" }}>
