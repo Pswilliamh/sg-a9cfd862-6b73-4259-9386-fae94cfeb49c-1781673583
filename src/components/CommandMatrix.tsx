@@ -176,6 +176,58 @@ const phraseVariations = {
   ],
 };
 
+// Sign Language Hand Gesture SVG Components
+const SignLanguageIcons = {
+  eating: () => (
+    <svg viewBox="0 0 100 100" className="w-full h-full" fill="none" stroke="#0B3C5D" strokeWidth="3">
+      <path d="M 30 60 Q 40 50, 50 60" strokeLinecap="round" />
+      <path d="M 50 60 L 50 40" strokeLinecap="round" />
+      <circle cx="35" cy="65" r="4" fill="#0B3C5D" />
+      <circle cx="45" cy="63" r="4" fill="#0B3C5D" />
+      <circle cx="55" cy="63" r="4" fill="#0B3C5D" />
+      <circle cx="65" cy="65" r="4" fill="#0B3C5D" />
+      <path d="M 40 70 Q 50 75, 60 70" strokeLinecap="round" />
+    </svg>
+  ),
+  drinking: () => (
+    <svg viewBox="0 0 100 100" className="w-full h-full" fill="none" stroke="#0B3C5D" strokeWidth="3">
+      <path d="M 40 50 L 35 70 L 65 70 L 60 50 Z" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="30" cy="45" r="5" fill="none" />
+      <path d="M 30 40 L 30 30" strokeLinecap="round" />
+      <path d="M 25 35 L 35 35" strokeLinecap="round" />
+    </svg>
+  ),
+  clothing: () => (
+    <svg viewBox="0 0 100 100" className="w-full h-full" fill="none" stroke="#0B3C5D" strokeWidth="3">
+      <path d="M 30 40 L 30 70 M 70 40 L 70 70" strokeLinecap="round" />
+      <path d="M 30 40 L 50 30 L 70 40" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M 30 55 L 40 55 M 60 55 L 70 55" strokeLinecap="round" />
+      <circle cx="40" cy="50" r="3" fill="#0B3C5D" />
+      <circle cx="60" cy="50" r="3" fill="#0B3C5D" />
+    </svg>
+  ),
+  driving: () => (
+    <svg viewBox="0 0 100 100" className="w-full h-full" fill="none" stroke="#0B3C5D" strokeWidth="3">
+      <circle cx="50" cy="50" r="20" strokeLinecap="round" />
+      <path d="M 30 50 L 45 50" strokeLinecap="round" />
+      <path d="M 55 50 L 70 50" strokeLinecap="round" />
+      <circle cx="40" cy="35" r="4" fill="#0B3C5D" />
+      <circle cx="60" cy="35" r="4" fill="#0B3C5D" />
+      <path d="M 45 60 Q 50 65, 55 60" strokeLinecap="round" />
+    </svg>
+  ),
+  money: () => (
+    <svg viewBox="0 0 100 100" className="w-full h-full" fill="none" stroke="#0B3C5D" strokeWidth="3">
+      <circle cx="50" cy="50" r="22" strokeLinecap="round" />
+      <path d="M 50 35 L 50 65" strokeLinecap="round" />
+      <path d="M 50 35 L 45 40 L 50 45" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M 50 55 L 55 60 L 50 65" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="42" cy="45" r="2" fill="#0B3C5D" />
+      <circle cx="58" cy="55" r="2" fill="#0B3C5D" />
+    </svg>
+  ),
+};
+
 interface CommandMatrixProps {
   onCardClick?: (variations: Array<{ en: string; id: string }>) => void;
   language: "en" | "id";
@@ -191,54 +243,54 @@ export function CommandMatrix({ onCardClick, language, relationshipMode }: Comma
       id: 1,
       title: t.nourishment,
       items: [
-        { icon: UtensilsCrossed, label: t.meals, messageKey: "meals", animation: "kinetic-meals" },
-        { icon: Droplet, label: t.water, messageKey: "water", animation: "kinetic-water" },
-        { icon: Apple, label: t.snacks, messageKey: "snacks", animation: "kinetic-meals" },
+        { icon: UtensilsCrossed, label: t.meals, messageKey: "meals", animation: "kinetic-meals", signIcon: "eating" },
+        { icon: Droplet, label: t.water, messageKey: "water", animation: "kinetic-water", signIcon: "drinking" },
+        { icon: Apple, label: t.snacks, messageKey: "snacks", animation: "kinetic-meals", signIcon: "eating" },
       ],
     },
     {
       id: 2,
       title: t.wardrobe,
       items: [
-        { icon: Shirt, label: t.shirts, messageKey: "shirts", animation: "" },
-        { icon: User2, label: t.pants, messageKey: "pants", animation: "kinetic-pants" },
-        { icon: Footprints, label: t.shoes, messageKey: "shoes", animation: "kinetic-shoes" },
+        { icon: Shirt, label: t.shirts, messageKey: "shirts", animation: "", signIcon: "clothing" },
+        { icon: User2, label: t.pants, messageKey: "pants", animation: "kinetic-pants", signIcon: "clothing" },
+        { icon: Footprints, label: t.shoes, messageKey: "shoes", animation: "kinetic-shoes", signIcon: "clothing" },
       ],
     },
     {
       id: 3,
       title: t.transport,
       items: [
-        { icon: Car, label: t.car, messageKey: "car", animation: "kinetic-car" },
-        { icon: Truck, label: t.truck, messageKey: "truck", animation: "kinetic-car" },
-        { icon: MapPin, label: t.location, messageKey: "location", animation: "" },
+        { icon: Car, label: t.car, messageKey: "car", animation: "kinetic-car", signIcon: "driving" },
+        { icon: Truck, label: t.truck, messageKey: "truck", animation: "kinetic-car", signIcon: "driving" },
+        { icon: MapPin, label: t.location, messageKey: "location", animation: "", signIcon: "driving" },
       ],
     },
     {
       id: 4,
       title: t.security,
       items: [
-        { icon: Shield, label: t.protection, messageKey: "protection", animation: "" },
-        { icon: Shield, label: t.safety, messageKey: "safety", animation: "" },
-        { icon: Shield, label: t.alert, messageKey: "alert", animation: "kinetic-payment" },
+        { icon: Shield, label: t.protection, messageKey: "protection", animation: "", signIcon: "money" },
+        { icon: Shield, label: t.safety, messageKey: "safety", animation: "", signIcon: "money" },
+        { icon: Shield, label: t.alert, messageKey: "alert", animation: "kinetic-payment", signIcon: "money" },
       ],
     },
     {
       id: 5,
       title: t.financial,
       items: [
-        { icon: DollarSign, label: t.payment, messageKey: "payment", animation: "kinetic-payment" },
-        { icon: DollarSign, label: t.budget, messageKey: "budget", animation: "" },
-        { icon: DollarSign, label: t.account, messageKey: "account", animation: "" },
+        { icon: DollarSign, label: t.payment, messageKey: "payment", animation: "kinetic-payment", signIcon: "money" },
+        { icon: DollarSign, label: t.budget, messageKey: "budget", animation: "", signIcon: "money" },
+        { icon: DollarSign, label: t.account, messageKey: "account", animation: "", signIcon: "money" },
       ],
     },
     {
       id: 6,
       title: t.dailyLife,
       items: [
-        { icon: Home, label: t.home, messageKey: "home", animation: "" },
-        { icon: Home, label: t.schedule, messageKey: "schedule", animation: "" },
-        { icon: Home, label: t.tasks, messageKey: "tasks", animation: "" },
+        { icon: Home, label: t.home, messageKey: "home", animation: "", signIcon: "eating" },
+        { icon: Home, label: t.schedule, messageKey: "schedule", animation: "", signIcon: "eating" },
+        { icon: Home, label: t.tasks, messageKey: "tasks", animation: "", signIcon: "eating" },
       ],
     },
   ];
@@ -281,15 +333,23 @@ export function CommandMatrix({ onCardClick, language, relationshipMode }: Comma
             <div className="grid grid-cols-3 gap-2 md:gap-3 p-2 flex-1">
               {category.items.map((item, idx) => {
                 const Icon = item.icon;
+                const SignIcon = SignLanguageIcons[item.signIcon as keyof typeof SignLanguageIcons];
                 
                 return (
                   <button
                     key={idx}
                     onClick={() => handleItemClick(item.messageKey)}
-                    className="flex flex-col items-center justify-start active:scale-[0.92] active:bg-blue-50 duration-150 cursor-pointer rounded-xl overflow-hidden"
+                    className="flex flex-col items-center justify-start active:scale-[0.92] active:bg-blue-50 duration-150 cursor-pointer rounded-xl overflow-hidden bg-white border border-slate-200"
                   >
-                    {/* Top 65% - Visual Box */}
-                    <div className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2 md:p-3 flex items-center justify-center" style={{ height: "65%" }}>
+                    {/* LAYER 1 (TOP 30%) - Sign Language Hand Gesture */}
+                    <div className="w-full bg-white flex items-center justify-center p-2" style={{ height: "30%" }}>
+                      <div className="w-full h-full flex items-center justify-center">
+                        <SignIcon />
+                      </div>
+                    </div>
+                    
+                    {/* LAYER 2 (MIDDLE 40%) - Kinetic Cartoon Animation */}
+                    <div className="w-full bg-slate-50 flex items-center justify-center p-2" style={{ height: "40%" }}>
                       {item.animation ? (
                         <div className={item.animation} style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", transformOrigin: "center" }}>
                           <Icon className="w-full h-full text-accent" strokeWidth={2} />
@@ -298,8 +358,9 @@ export function CommandMatrix({ onCardClick, language, relationshipMode }: Comma
                         <Icon className="w-full h-full text-accent" strokeWidth={2} />
                       )}
                     </div>
-                    {/* Bottom 35% - Label */}
-                    <div className="w-full flex items-center justify-center" style={{ height: "35%" }}>
+                    
+                    {/* LAYER 3 (BOTTOM 30%) - Text Label */}
+                    <div className="w-full bg-white flex items-center justify-center p-1" style={{ height: "30%" }}>
                       <span className="text-xs md:text-sm font-bold text-center leading-tight px-1" style={{ color: "#000000" }}>
                         {item.label}
                       </span>
