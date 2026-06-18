@@ -136,8 +136,10 @@
 
 .v-sway {
   animation: dynamic-sway 2.5s ease-in-out infinite;
+  will-change: transform;
 }
 
 .v-pulse {
   animation: dynamic-pulse 2s ease-in-out infinite;
+  will-change: transform;
 }
