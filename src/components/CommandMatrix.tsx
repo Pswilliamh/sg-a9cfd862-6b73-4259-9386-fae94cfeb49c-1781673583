@@ -266,13 +266,24 @@ export function CommandMatrix({ onCardClick, language }: CommandMatrixProps) {
             <div className="flex-1 grid grid-cols-3 gap-4">
               {category.items.map((item, idx) => {
                 const Icon = item.icon;
+                
+                // Determine animation class based on category
+                let animationClass = "";
+                if (category.id === 2) {
+                  // Wardrobe items (Shirts, Pants, Shoes) - sway animation
+                  animationClass = "animate-sway";
+                } else if (category.id === 1) {
+                  // Nourishment items - ripple for water, float for others
+                  animationClass = item.messageKey === "water" ? "animate-ripple" : "animate-float";
+                }
+                
                 return (
                   <button
                     key={idx}
                     onClick={() => handleItemClick(item.messageKey)}
-                    className="flex flex-col items-center justify-between p-3 rounded-2xl bg-white border-2 border-accent/20 hover:border-accent/60 hover:shadow-2xl hover:shadow-accent/30 transition-all duration-300 cursor-pointer group active:scale-95"
+                    className="flex flex-col items-center justify-between p-3 rounded-2xl bg-white border-2 border-accent/20 hover:border-accent/60 hover:shadow-2xl hover:shadow-accent/30 transition-all duration-200 transform cursor-pointer group active:scale-90 active:bg-blue-100"
                   >
-                    <div className="w-full aspect-square bg-gradient-to-br from-accent/20 via-accent/10 to-accent/5 rounded-xl flex items-center justify-center mb-3 group-hover:scale-105 group-active:scale-95 transition-transform duration-300 shadow-inner">
+                    <div className={`w-full aspect-square bg-gradient-to-br from-accent/20 via-accent/10 to-accent/5 rounded-xl flex items-center justify-center mb-3 group-hover:scale-105 transition-transform duration-300 shadow-inner ${animationClass}`}>
                       <Icon className="w-3/5 h-3/5 text-accent group-hover:animate-pulse" strokeWidth={2.5} />
                     </div>
                     <span className="text-sm font-bold text-center leading-tight w-full" style={{ color: "#000000" }}>

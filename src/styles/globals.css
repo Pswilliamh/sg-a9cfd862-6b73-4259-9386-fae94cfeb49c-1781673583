@@ -114,3 +114,49 @@
     background: rgba(255, 255, 255, 0.3);
   }
 }
+
+/* Custom Keyframe Animations for Interactive Cards */
+@keyframes subtle-sway {
+  0%, 100% { 
+    transform: rotate(-3deg); 
+  }
+  50% { 
+    transform: rotate(3deg); 
+  }
+}
+
+@keyframes gentle-ripple {
+  0% { 
+    transform: scale(0.98); 
+    opacity: 0.8; 
+  }
+  50% { 
+    transform: scale(1.02); 
+    opacity: 1; 
+  }
+  100% { 
+    transform: scale(0.98); 
+    opacity: 0.8; 
+  }
+}
+
+@keyframes float-slow {
+  0%, 100% { 
+    transform: translateY(0px); 
+  }
+  50% { 
+    transform: translateY(-4px); 
+  }
+}
+
+.animate-sway {
+  animation: subtle-sway 3s ease-in-out infinite;
+}
+
+.animate-ripple {
+  animation: gentle-ripple 2s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float-slow 3s ease-in-out infinite;
+}
