@@ -1,8 +1,13 @@
 "use client";
 
-import { UtensilsCrossed, Droplet, Apple, Shirt, User2, Footprints, Car, Truck, MapPin, Shield, DollarSign, Home } from "lucide-react";
+import { 
+  UtensilsCrossed, Droplet, Apple, Shirt, User2, Footprints, 
+  Car, Truck, MapPin, ShieldCheck, ShieldAlert, AlertTriangle,
+  Banknote, PiggyBank, Wallet, Home, Calendar, ClipboardList 
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import type { RelationshipMode } from "@/components/RelationshipToggle";
+import { useState } from "react";
 
 const translations = {
   en: {
@@ -176,7 +181,6 @@ const phraseVariations = {
   ],
 };
 
-// Sign Language Hand Gesture SVG Components
 const SignLanguageIcons = {
   eating: () => (
     <svg viewBox="0 0 100 100" className="w-full h-full" fill="none" stroke="#0B3C5D" strokeWidth="3">
@@ -228,15 +232,25 @@ const SignLanguageIcons = {
   ),
 };
 
-// Real photo mappings for picture-first approach
 const realPhotos = {
   meals: "/generated/food-meal.png",
   water: "/generated/drink-water.png",
   snacks: "/generated/food-meal.png",
-  toilet: "/generated/toilet.png",
-  sleep: "/generated/sleep-rest.png",
-  shower: "/generated/shower-bath.png",
-  emergency: "/generated/emergency-help.png",
+  shirts: "/generated/clothing-shirt.png",
+  pants: "/generated/clothing-pants.png",
+  shoes: "/generated/clothing-shoes.png",
+  car: "/generated/transport-car.png",
+  truck: "/generated/transport-truck.png",
+  location: "/generated/location-map.png",
+  protection: "/generated/security-protection.png",
+  safety: "/generated/security-safety.png",
+  alert: "/generated/emergency-help.png",
+  payment: "/generated/financial-payment.png",
+  budget: "/generated/financial-budget.png",
+  account: "/generated/financial-account.png",
+  home: "/generated/daily-home.png",
+  schedule: "/generated/daily-schedule.png",
+  tasks: "/generated/daily-tasks.png",
 };
 
 interface CommandMatrixProps {
@@ -250,6 +264,7 @@ interface CommandMatrixProps {
 export function CommandMatrix({ onCardClick, language, relationshipMode, emergencyContactName, emergencyContactPhone }: CommandMatrixProps) {
   const t = translations[language];
   const modeLabel = relationshipLabels[relationshipMode];
+  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
 
   const categories = [
     {
@@ -258,9 +273,9 @@ export function CommandMatrix({ onCardClick, language, relationshipMode, emergen
       borderColor: "border-blue-400",
       bgColor: "bg-blue-50",
       items: [
-        { icon: UtensilsCrossed, label: t.meals, messageKey: "meals", animation: "kinetic-meals", signIcon: "eating", photo: "meals" },
-        { icon: Droplet, label: t.water, messageKey: "water", animation: "kinetic-water", signIcon: "drinking", photo: "water" },
-        { icon: Apple, label: t.snacks, messageKey: "snacks", animation: "kinetic-meals", signIcon: "eating", photo: "snacks" },
+        { icon: UtensilsCrossed, label: t.meals, messageKey: "meals", animation: "kinetic-meals", signIcon: "eating" },
+        { icon: Droplet, label: t.water, messageKey: "water", animation: "kinetic-water", signIcon: "drinking" },
+        { icon: Apple, label: t.snacks, messageKey: "snacks", animation: "kinetic-meals", signIcon: "eating" },
       ],
     },
     {
@@ -269,9 +284,9 @@ export function CommandMatrix({ onCardClick, language, relationshipMode, emergen
       borderColor: "border-green-500",
       bgColor: "bg-green-50",
       items: [
-        { icon: Shirt, label: t.shirts, messageKey: "shirts", animation: "", signIcon: "clothing", photo: null },
-        { icon: User2, label: t.pants, messageKey: "pants", animation: "kinetic-pants", signIcon: "clothing", photo: null },
-        { icon: Footprints, label: t.shoes, messageKey: "shoes", animation: "kinetic-shoes", signIcon: "clothing", photo: null },
+        { icon: Shirt, label: t.shirts, messageKey: "shirts", animation: "kinetic-zoom", signIcon: "clothing" },
+        { icon: User2, label: t.pants, messageKey: "pants", animation: "kinetic-pants", signIcon: "clothing" },
+        { icon: Footprints, label: t.shoes, messageKey: "shoes", animation: "kinetic-shoes", signIcon: "clothing" },
       ],
     },
     {
@@ -280,9 +295,9 @@ export function CommandMatrix({ onCardClick, language, relationshipMode, emergen
       borderColor: "border-amber-400",
       bgColor: "bg-amber-50",
       items: [
-        { icon: Car, label: t.car, messageKey: "car", animation: "kinetic-car", signIcon: "driving", photo: null },
-        { icon: Truck, label: t.truck, messageKey: "truck", animation: "kinetic-car", signIcon: "driving", photo: null },
-        { icon: MapPin, label: t.location, messageKey: "location", animation: "", signIcon: "driving", photo: null },
+        { icon: Car, label: t.car, messageKey: "car", animation: "kinetic-car", signIcon: "driving" },
+        { icon: Truck, label: t.truck, messageKey: "truck", animation: "kinetic-car", signIcon: "driving" },
+        { icon: MapPin, label: t.location, messageKey: "location", animation: "kinetic-zoom", signIcon: "driving" },
       ],
     },
     {
@@ -291,9 +306,9 @@ export function CommandMatrix({ onCardClick, language, relationshipMode, emergen
       borderColor: "border-red-500",
       bgColor: "bg-red-50",
       items: [
-        { icon: Shield, label: t.protection, messageKey: "protection", animation: "", signIcon: "money", photo: null },
-        { icon: Shield, label: t.safety, messageKey: "safety", animation: "", signIcon: "money", photo: null },
-        { icon: Shield, label: t.alert, messageKey: "alert", animation: "kinetic-payment", signIcon: "money", photo: "emergency" },
+        { icon: ShieldCheck, label: t.protection, messageKey: "protection", animation: "kinetic-pulse", signIcon: "money" },
+        { icon: ShieldAlert, label: t.safety, messageKey: "safety", animation: "kinetic-pulse", signIcon: "money" },
+        { icon: AlertTriangle, label: t.alert, messageKey: "alert", animation: "kinetic-payment", signIcon: "money" },
       ],
     },
     {
@@ -302,9 +317,9 @@ export function CommandMatrix({ onCardClick, language, relationshipMode, emergen
       borderColor: "border-purple-600",
       bgColor: "bg-purple-50",
       items: [
-        { icon: DollarSign, label: t.payment, messageKey: "payment", animation: "kinetic-payment", signIcon: "money", photo: null },
-        { icon: DollarSign, label: t.budget, messageKey: "budget", animation: "", signIcon: "money", photo: null },
-        { icon: DollarSign, label: t.account, messageKey: "account", animation: "", signIcon: "money", photo: null },
+        { icon: Banknote, label: t.payment, messageKey: "payment", animation: "kinetic-payment", signIcon: "money" },
+        { icon: PiggyBank, label: t.budget, messageKey: "budget", animation: "kinetic-zoom", signIcon: "money" },
+        { icon: Wallet, label: t.account, messageKey: "account", animation: "kinetic-pulse", signIcon: "money" },
       ],
     },
     {
@@ -313,9 +328,9 @@ export function CommandMatrix({ onCardClick, language, relationshipMode, emergen
       borderColor: "border-navigation",
       bgColor: "bg-slate-50",
       items: [
-        { icon: Home, label: t.home, messageKey: "home", animation: "", signIcon: "eating", photo: null },
-        { icon: Home, label: t.schedule, messageKey: "schedule", animation: "", signIcon: "eating", photo: null },
-        { icon: Home, label: t.tasks, messageKey: "tasks", animation: "", signIcon: "eating", photo: null },
+        { icon: Home, label: t.home, messageKey: "home", animation: "kinetic-pulse", signIcon: "eating" },
+        { icon: Calendar, label: t.schedule, messageKey: "schedule", animation: "kinetic-zoom", signIcon: "eating" },
+        { icon: ClipboardList, label: t.tasks, messageKey: "tasks", animation: "kinetic-payment", signIcon: "eating" },
       ],
     },
   ];
@@ -325,7 +340,6 @@ export function CommandMatrix({ onCardClick, language, relationshipMode, emergen
     if (variations && onCardClick) {
       onCardClick(variations);
       
-      // Select the appropriate variation based on relationship mode
       let selectedIndex = 0;
       if (relationshipMode === "formal") {
         selectedIndex = 0;
@@ -338,7 +352,6 @@ export function CommandMatrix({ onCardClick, language, relationshipMode, emergen
       const selectedVariation = variations[selectedIndex] || variations[0];
       const textToSpeak = language === "en" ? selectedVariation.en : selectedVariation.id;
       
-      // Special handling for alert messages - send to WhatsApp
       if (messageKey === "alert" && emergencyContactPhone) {
         const alertMessage = `🚨 EMERGENCY ALERT from ${emergencyContactName || "Unknown"}: ${textToSpeak}`;
         const whatsappPhone = emergencyContactPhone.replace(/[^0-9]/g, "");
@@ -378,13 +391,29 @@ export function CommandMatrix({ onCardClick, language, relationshipMode, emergen
               {category.items.map((item, idx) => {
                 const Icon = item.icon;
                 const SignIcon = SignLanguageIcons[item.signIcon as keyof typeof SignLanguageIcons];
+                const cardKey = `${category.id}-${idx}`;
+                const isHovered = hoveredCard === cardKey;
+                const photoUrl = realPhotos[item.messageKey as keyof typeof realPhotos];
                 
                 return (
                   <button
                     key={idx}
                     onClick={() => handleItemClick(item.messageKey)}
-                    className="flex flex-col items-center justify-start active:scale-[0.92] active:bg-blue-50 duration-150 cursor-pointer rounded-xl overflow-hidden bg-white border-2 border-slate-200 hover:border-accent/50 transition-all"
+                    onMouseEnter={() => setHoveredCard(cardKey)}
+                    onMouseLeave={() => setHoveredCard(null)}
+                    className="flex flex-col items-center justify-start active:scale-[0.92] active:bg-blue-50 duration-150 cursor-pointer rounded-xl overflow-hidden bg-white border-2 border-slate-200 hover:border-accent/50 transition-all relative"
                   >
+                    {/* Hover Pop-up Image Overlay */}
+                    {isHovered && photoUrl && (
+                      <div className="absolute inset-0 z-50 bg-white/95 backdrop-blur-sm flex items-center justify-center p-2 animate-fade-in">
+                        <img 
+                          src={photoUrl} 
+                          alt={item.label}
+                          className="max-w-full max-h-full object-contain rounded-lg shadow-2xl border-4 border-accent"
+                        />
+                      </div>
+                    )}
+                    
                     {/* LAYER 1 (TOP 25%) - Sign Language Hand Gesture */}
                     <div className="w-full bg-white flex items-center justify-center p-1" style={{ height: "25%" }}>
                       <div className="w-full h-full flex items-center justify-center">
@@ -392,15 +421,9 @@ export function CommandMatrix({ onCardClick, language, relationshipMode, emergen
                       </div>
                     </div>
                     
-                    {/* LAYER 2 (MIDDLE 50%) - Real Photo or Kinetic Icon */}
+                    {/* LAYER 2 (MIDDLE 50%) - Animated Icon */}
                     <div className="w-full bg-slate-50 flex items-center justify-center overflow-hidden relative" style={{ height: "50%" }}>
-                      {item.photo && realPhotos[item.photo as keyof typeof realPhotos] ? (
-                        <img 
-                          src={realPhotos[item.photo as keyof typeof realPhotos]} 
-                          alt={item.label}
-                          className="w-full h-full object-cover"
-                        />
-                      ) : item.animation ? (
+                      {item.animation ? (
                         <div className={item.animation} style={{ width: "80%", height: "80%", display: "flex", alignItems: "center", justifyContent: "center", transformOrigin: "center" }}>
                           <Icon className="w-full h-full text-accent" strokeWidth={2} />
                         </div>
