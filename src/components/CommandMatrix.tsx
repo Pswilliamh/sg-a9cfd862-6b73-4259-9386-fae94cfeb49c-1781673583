@@ -228,6 +228,17 @@ const SignLanguageIcons = {
   ),
 };
 
+// Real photo mappings for picture-first approach
+const realPhotos = {
+  meals: "/generated/food-meal.png",
+  water: "/generated/drink-water.png",
+  snacks: "/generated/food-meal.png",
+  toilet: "/generated/toilet.png",
+  sleep: "/generated/sleep-rest.png",
+  shower: "/generated/shower-bath.png",
+  emergency: "/generated/emergency-help.png",
+};
+
 interface CommandMatrixProps {
   onCardClick?: (variations: Array<{ en: string; id: string }>) => void;
   language: "en" | "id";
@@ -247,9 +258,9 @@ export function CommandMatrix({ onCardClick, language, relationshipMode, emergen
       borderColor: "border-blue-400",
       bgColor: "bg-blue-50",
       items: [
-        { icon: UtensilsCrossed, label: t.meals, messageKey: "meals", animation: "kinetic-meals", signIcon: "eating" },
-        { icon: Droplet, label: t.water, messageKey: "water", animation: "kinetic-water", signIcon: "drinking" },
-        { icon: Apple, label: t.snacks, messageKey: "snacks", animation: "kinetic-meals", signIcon: "eating" },
+        { icon: UtensilsCrossed, label: t.meals, messageKey: "meals", animation: "kinetic-meals", signIcon: "eating", photo: "meals" },
+        { icon: Droplet, label: t.water, messageKey: "water", animation: "kinetic-water", signIcon: "drinking", photo: "water" },
+        { icon: Apple, label: t.snacks, messageKey: "snacks", animation: "kinetic-meals", signIcon: "eating", photo: "snacks" },
       ],
     },
     {
@@ -258,9 +269,9 @@ export function CommandMatrix({ onCardClick, language, relationshipMode, emergen
       borderColor: "border-green-500",
       bgColor: "bg-green-50",
       items: [
-        { icon: Shirt, label: t.shirts, messageKey: "shirts", animation: "", signIcon: "clothing" },
-        { icon: User2, label: t.pants, messageKey: "pants", animation: "kinetic-pants", signIcon: "clothing" },
-        { icon: Footprints, label: t.shoes, messageKey: "shoes", animation: "kinetic-shoes", signIcon: "clothing" },
+        { icon: Shirt, label: t.shirts, messageKey: "shirts", animation: "", signIcon: "clothing", photo: null },
+        { icon: User2, label: t.pants, messageKey: "pants", animation: "kinetic-pants", signIcon: "clothing", photo: null },
+        { icon: Footprints, label: t.shoes, messageKey: "shoes", animation: "kinetic-shoes", signIcon: "clothing", photo: null },
       ],
     },
     {
@@ -269,9 +280,9 @@ export function CommandMatrix({ onCardClick, language, relationshipMode, emergen
       borderColor: "border-amber-400",
       bgColor: "bg-amber-50",
       items: [
-        { icon: Car, label: t.car, messageKey: "car", animation: "kinetic-car", signIcon: "driving" },
-        { icon: Truck, label: t.truck, messageKey: "truck", animation: "kinetic-car", signIcon: "driving" },
-        { icon: MapPin, label: t.location, messageKey: "location", animation: "", signIcon: "driving" },
+        { icon: Car, label: t.car, messageKey: "car", animation: "kinetic-car", signIcon: "driving", photo: null },
+        { icon: Truck, label: t.truck, messageKey: "truck", animation: "kinetic-car", signIcon: "driving", photo: null },
+        { icon: MapPin, label: t.location, messageKey: "location", animation: "", signIcon: "driving", photo: null },
       ],
     },
     {
@@ -280,9 +291,9 @@ export function CommandMatrix({ onCardClick, language, relationshipMode, emergen
       borderColor: "border-red-500",
       bgColor: "bg-red-50",
       items: [
-        { icon: Shield, label: t.protection, messageKey: "protection", animation: "", signIcon: "money" },
-        { icon: Shield, label: t.safety, messageKey: "safety", animation: "", signIcon: "money" },
-        { icon: Shield, label: t.alert, messageKey: "alert", animation: "kinetic-payment", signIcon: "money" },
+        { icon: Shield, label: t.protection, messageKey: "protection", animation: "", signIcon: "money", photo: null },
+        { icon: Shield, label: t.safety, messageKey: "safety", animation: "", signIcon: "money", photo: null },
+        { icon: Shield, label: t.alert, messageKey: "alert", animation: "kinetic-payment", signIcon: "money", photo: "emergency" },
       ],
     },
     {
@@ -291,9 +302,9 @@ export function CommandMatrix({ onCardClick, language, relationshipMode, emergen
       borderColor: "border-purple-600",
       bgColor: "bg-purple-50",
       items: [
-        { icon: DollarSign, label: t.payment, messageKey: "payment", animation: "kinetic-payment", signIcon: "money" },
-        { icon: DollarSign, label: t.budget, messageKey: "budget", animation: "", signIcon: "money" },
-        { icon: DollarSign, label: t.account, messageKey: "account", animation: "", signIcon: "money" },
+        { icon: DollarSign, label: t.payment, messageKey: "payment", animation: "kinetic-payment", signIcon: "money", photo: null },
+        { icon: DollarSign, label: t.budget, messageKey: "budget", animation: "", signIcon: "money", photo: null },
+        { icon: DollarSign, label: t.account, messageKey: "account", animation: "", signIcon: "money", photo: null },
       ],
     },
     {
@@ -302,9 +313,9 @@ export function CommandMatrix({ onCardClick, language, relationshipMode, emergen
       borderColor: "border-navigation",
       bgColor: "bg-slate-50",
       items: [
-        { icon: Home, label: t.home, messageKey: "home", animation: "", signIcon: "eating" },
-        { icon: Home, label: t.schedule, messageKey: "schedule", animation: "", signIcon: "eating" },
-        { icon: Home, label: t.tasks, messageKey: "tasks", animation: "", signIcon: "eating" },
+        { icon: Home, label: t.home, messageKey: "home", animation: "", signIcon: "eating", photo: null },
+        { icon: Home, label: t.schedule, messageKey: "schedule", animation: "", signIcon: "eating", photo: null },
+        { icon: Home, label: t.tasks, messageKey: "tasks", animation: "", signIcon: "eating", photo: null },
       ],
     },
   ];
@@ -372,28 +383,34 @@ export function CommandMatrix({ onCardClick, language, relationshipMode, emergen
                   <button
                     key={idx}
                     onClick={() => handleItemClick(item.messageKey)}
-                    className="flex flex-col items-center justify-start active:scale-[0.92] active:bg-blue-50 duration-150 cursor-pointer rounded-xl overflow-hidden bg-white border border-slate-200"
+                    className="flex flex-col items-center justify-start active:scale-[0.92] active:bg-blue-50 duration-150 cursor-pointer rounded-xl overflow-hidden bg-white border-2 border-slate-200 hover:border-accent/50 transition-all"
                   >
-                    {/* LAYER 1 (TOP 30%) - Sign Language Hand Gesture */}
-                    <div className="w-full bg-white flex items-center justify-center p-2" style={{ height: "30%" }}>
+                    {/* LAYER 1 (TOP 25%) - Sign Language Hand Gesture */}
+                    <div className="w-full bg-white flex items-center justify-center p-1" style={{ height: "25%" }}>
                       <div className="w-full h-full flex items-center justify-center">
                         <SignIcon />
                       </div>
                     </div>
                     
-                    {/* LAYER 2 (MIDDLE 40%) - Kinetic Cartoon Animation */}
-                    <div className="w-full bg-slate-50 flex items-center justify-center p-2" style={{ height: "40%" }}>
-                      {item.animation ? (
-                        <div className={item.animation} style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", transformOrigin: "center" }}>
+                    {/* LAYER 2 (MIDDLE 50%) - Real Photo or Kinetic Icon */}
+                    <div className="w-full bg-slate-50 flex items-center justify-center overflow-hidden relative" style={{ height: "50%" }}>
+                      {item.photo && realPhotos[item.photo as keyof typeof realPhotos] ? (
+                        <img 
+                          src={realPhotos[item.photo as keyof typeof realPhotos]} 
+                          alt={item.label}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : item.animation ? (
+                        <div className={item.animation} style={{ width: "80%", height: "80%", display: "flex", alignItems: "center", justifyContent: "center", transformOrigin: "center" }}>
                           <Icon className="w-full h-full text-accent" strokeWidth={2} />
                         </div>
                       ) : (
-                        <Icon className="w-full h-full text-accent" strokeWidth={2} />
+                        <Icon className="w-3/4 h-3/4 text-accent" strokeWidth={2} />
                       )}
                     </div>
                     
-                    {/* LAYER 3 (BOTTOM 30%) - Text Label */}
-                    <div className="w-full bg-white flex items-center justify-center p-1" style={{ height: "30%" }}>
+                    {/* LAYER 3 (BOTTOM 25%) - Text Label */}
+                    <div className="w-full bg-white flex items-center justify-center p-1 border-t border-slate-100" style={{ height: "25%" }}>
                       <span className="text-xs md:text-sm font-bold text-center leading-tight px-1" style={{ color: "#000000" }}>
                         {item.label}
                       </span>
