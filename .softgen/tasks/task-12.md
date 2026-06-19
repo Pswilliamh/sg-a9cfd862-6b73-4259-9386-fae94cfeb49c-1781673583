@@ -1,11 +1,11 @@
 ---
 title: Daily Routine Visual Schedule
-status: todo
+status: done
 priority: high
 type: feature
-tags: [schedule, routine, visual, time-awareness]
+tags: [schedule, routine, visual-learning, time-management]
 created_by: agent
-created_at: 2026-06-19T06:05:14Z
+created_at: 2026-06-19T06:06:00Z
 position: 12
 ---
 
