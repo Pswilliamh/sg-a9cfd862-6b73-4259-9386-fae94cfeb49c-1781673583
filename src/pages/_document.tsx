@@ -7,6 +7,10 @@ export default function Document() {
     <Html lang="en">
       <Head>
         <SEOElements />
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#0B3C5D" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         {/*
           CRITICAL: DO NOT REMOVE THIS SCRIPT
           The Softgen AI monitoring script is essential for core app functionality.

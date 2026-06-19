@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SovereignHeader, type ScenarioType } from "@/components/SovereignHeader";
 import { SystemFooter } from "@/components/SystemFooter";
 import { RelationshipToggle, type RelationshipMode } from "@/components/RelationshipToggle";
@@ -19,6 +19,14 @@ import { PasswordGate } from "@/components/PasswordGate";
 import { SEO } from "@/components/SEO";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Radio } from "lucide-react";
+import { 
+  registerServiceWorker, 
+  saveSettings, 
+  getSettings, 
+  saveMessage, 
+  getMessages,
+  type ChatMessageStorage 
+} from "@/lib/storage";
 
 export default function Home() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -33,6 +41,54 @@ export default function Home() {
   const [showSecurityModal, setShowSecurityModal] = useState(false);
   const [emergencyContactName, setEmergencyContactName] = useState("Emergency Coordinator");
   const [emergencyContactPhone, setEmergencyContactPhone] = useState("+1234567890");
+
+  // Load persisted settings and messages on mount
+  useEffect(() => {
+    // Register service worker for offline functionality
+    registerServiceWorker();
+
+    // Load saved settings
+    const settings = getSettings();
+    setLanguage(settings.language);
+    setRelationshipMode(settings.relationshipMode);
+    setEmergencyContactName(settings.emergencyContactName);
+    setEmergencyContactPhone(settings.emergencyContactPhone);
+    setIsAuthenticated(settings.isAuthenticated);
+
+    // Load saved messages
+    const savedMessages = getMessages();
+    const parsedMessages: ChatMessage[] = savedMessages.map((msg: ChatMessageStorage) => ({
+      ...msg,
+      timestamp: new Date(msg.timestamp)
+    }));
+    setChatMessages(parsedMessages);
+
+    // Listen for online/offline events
+    const handleOnline = () => setIsOffline(false);
+    const handleOffline = () => setIsOffline(true);
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
+    // Set initial offline state
+    setIsOffline(!navigator.onLine);
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
+
+  // Save settings whenever they change
+  useEffect(() => {
+    saveSettings({
+      language,
+      relationshipMode,
+      emergencyContactName,
+      emergencyContactPhone,
+      isAuthenticated
+    });
+  }, [language, relationshipMode, emergencyContactName, emergencyContactPhone, isAuthenticated]);
 
   // Simulated inbound message listener - runs in background
   useState(() => {
@@ -89,6 +145,13 @@ export default function Home() {
     };
 
     setChatMessages((prev) => [...prev, newMessage]);
+    
+    // Persist message to localStorage
+    const storageMessage: ChatMessageStorage = {
+      ...newMessage,
+      timestamp: newMessage.timestamp.toISOString()
+    };
+    saveMessage(storageMessage);
     
     if (scenario === "zoom" && sender === "student") {
       console.log("📹 Zoom Integration: Message routed to chat stream and captions:", {
