@@ -1,11 +1,11 @@
 ---
 title: Offline-First Architecture with Local Storage
-status: in_progress
+status: done
 priority: urgent
 type: feature
-tags: [offline, pwa, storage, architecture]
+tags: [pwa, offline, storage, persistence]
 created_by: agent
-created_at: 2026-06-19T06:05:14Z
+created_at: 2026-06-19T06:06:00Z
 position: 10
 ---
 
