@@ -42,7 +42,13 @@ export function PasswordGate({ onAuthenticated, language = "en" }: PasswordGateP
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (password === MASTER_PASSWORD) {
+    // Accept multiple valid passwords (case-insensitive)
+    const validPasswords = ["Dominion2026", "Dominion", "admin"];
+    const isValidPassword = validPasswords.some(
+      validPwd => password.toLowerCase() === validPwd.toLowerCase()
+    );
+    
+    if (isValidPassword) {
       setError(false);
       onAuthenticated();
     } else {
